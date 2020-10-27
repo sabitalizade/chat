@@ -4,11 +4,16 @@ const socketio = require('socket.io');
 const http =require('http');
 const router = require('./router');
 const {addUser,removeUser,getUser,getUsersInRoom}=require('./users')
+const cors= require('cors')
 
 const port = 5000 || process.env.PORT;
 
 const server=http.createServer(app);
 const io = socketio(server)
+
+// router midleware
+app.use(router);
+app.use(cors);
 
 io.on('connection',(socket)=>{
     
@@ -43,8 +48,7 @@ io.on('connection',(socket)=>{
         }
     })
 })
-// router midleware
-app.use(router);
+
 
 server.listen(port,(err)=>{
     console.log(`App started http://localhost:${port}`);
